@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>tankzim2000 After-action report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: one column of field-manual entries, tabs on top; the drab of the vehicles, status as plain semantic colour. */
+:root { --bg:#eef0ea; --fg:#1b1e17; --muted:#5d6455; --card:#f9faf6; --line:#d3d8ca; --accent:#4f6230;
+  --built:#2e7044; --decided:#2f5b8a; --open:#9a5b00; --parked:#6e736a; --rejected:#9b2c2c;
+  --stated:#2e7044; --secondhand:#2f5b8a; --mock:#9a5b00; --design:#6a3f99; --observed:#3d6466;
+  --display:"Barlow Condensed", "Arial Narrow", sans-serif; --body:"IBM Plex Sans", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#13150f; --fg:#e4e7dc; --muted:#9da593;
+  --card:#1c1f17; --line:#353a2d; --accent:#a8bf78; --built:#7cc493; --decided:#8db4de; --open:#e0a548; --parked:#a3a89c;
+  --rejected:#e08585; --stated:#7cc493; --secondhand:#8db4de; --mock:#e0a548; --design:#c2a0e6; --observed:#8cc0c2;
+  color-scheme: dark; } }
+:root[data-theme="dark"] { --bg:#13150f; --fg:#e4e7dc; --muted:#9da593; --card:#1c1f17; --line:#353a2d; --accent:#a8bf78;
+  --built:#7cc493; --decided:#8db4de; --open:#e0a548; --parked:#a3a89c; --rejected:#e08585; --stated:#7cc493;
+  --secondhand:#8db4de; --mock:#e0a548; --design:#c2a0e6; --observed:#8cc0c2; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 var(--body); }
+main { max-width: 920px; margin: 0 auto; padding-block: 24px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1 { margin: 0 0 4px; font: 700 2.1rem/1.1 var(--display); letter-spacing: .01em; text-wrap: balance; }
+h2 { font: 600 1.35rem/1.2 var(--display); margin: 28px 0 6px; text-wrap: balance; }
+.meta { color: var(--muted); font-size: .85rem; margin-bottom: 16px; }
+.bar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:16px; }
+.bar input { flex: 1 1 200px; min-width: 0; padding: 8px 10px; border:1px solid var(--line); border-radius:6px;
+  background:var(--card); color:var(--fg); font:inherit; }
+.flt { border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:999px; padding:4px 12px;
+  cursor:pointer; font:inherit; font-size:.85rem; }
+.flt.on { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pics { display:flex; flex-wrap:wrap; gap:12px; }
+figure.pic { margin:0; width:240px; }
+figure.pic img { width:240px; height:auto; display:block; border:1px solid var(--line); border-radius:4px; }
+figure.pic figcaption { font-size:13px; color:var(--muted); margin-top:4px; }
+figure.pic .ver { font-family:ui-monospace,monospace; margin-left:4px; }
+figure.pic .earlier { display:block; }
+figure.pic .earlier a { margin-right:6px; font-family:ui-monospace,monospace; }
+details.decision { background: var(--card); border:1px solid var(--line); border-radius:6px; margin-bottom:8px; }
+details.decision > summary { cursor:pointer; padding:12px 14px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+  list-style:none; }
+details.decision > summary::-webkit-details-marker { display:none; }
+details.decision > summary::before { content:"▸"; color:var(--muted); transition: transform .15s; }
+details.decision[open] > summary::before { transform: rotate(90deg); }
+@media (prefers-reduced-motion: reduce) { details.decision > summary::before { transition: none; } }
+.title { font-weight: 600; flex: 1 1 auto; min-width: 0; }
+.body { padding: 0 16px 14px 32px; min-width: 0; }
+.summary { margin-top: 0; max-width: 68ch; }
+.body p { max-width: 68ch; }
+.question { color: var(--muted); }
+h4 { margin: 14px 0 6px; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.chip { font-size:.75rem; padding:1px 8px; border-radius:999px; border:1px solid currentColor; white-space:nowrap; font-family: var(--body); }
+.st-built{color:var(--built)} .st-decided{color:var(--decided)} .st-open{color:var(--open)} .st-parked{color:var(--parked)}
+.st-rejected{color:var(--rejected)} .ver{color:var(--muted); font-family: var(--mono)}
+.lb-stated{color:var(--stated)} .lb-secondhand{color:var(--secondhand)} .lb-MOCK{color:var(--mock)}
+.lb-DESIGN_CHOICE{color:var(--design)} .lb-observed{color:var(--observed)}
+details.opt { border-left: 3px solid var(--line); margin: 4px 0; padding: 2px 10px; }
+details.opt.chosen { border-left-color: var(--built); }
+details.opt > summary { cursor:pointer; }
+.tick { display:inline-block; width:1.2em; color: var(--built); font-weight:700; }
+.why { color: var(--muted); }
+blockquote .tr { display:block; font-style: normal; color: var(--muted); font-size: .9rem; margin-top: 2px; }
+blockquote { margin: 6px 0; padding: 4px 12px; border-left: 3px solid var(--accent); font-style: italic; max-width: 68ch; }
+.tablewrap { overflow-x: auto; }
+table.facts { width:100%; border-collapse: collapse; font-size: .92rem; }
+table.facts td { border-top: 1px solid var(--line); padding: 6px 6px; vertical-align: top; }
+td.src { color: var(--muted); font-size: .85rem; }
+ul.code { padding-left: 18px; }
+code { font: .86rem var(--mono); overflow-wrap: anywhere; }
+.tabs { display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+.tab { border:0; background:none; color:var(--muted); font: 600 1.05rem var(--display); letter-spacing:.02em; padding:8px 14px;
+  cursor:pointer; border-bottom:2px solid transparent; }
+.tab.on { color:var(--fg); border-bottom-color:var(--accent); }
+.chip.ev { color: var(--accent); text-decoration:none; }
+.chip.link { color: var(--built); text-decoration:none; }
+.chip.thought { color: var(--design); text-decoration:none; }
+.kind-idea{color:var(--design)} .kind-plan{color:var(--built)} .kind-question{color:var(--open)} .kind-parked{color:var(--parked)}
+.links { display:flex; flex-wrap:wrap; gap:6px; }
+.count { font: 400 .8rem var(--body); color: var(--muted); border:1px solid var(--line); border-radius:999px; padding:0 7px; vertical-align: middle; }
+.vhead { font: 600 1rem var(--mono); color: var(--muted); margin: 14px 0 6px; }
+#list .group > h2:first-child { margin-top: 8px; }
+.lead { color: var(--muted); max-width: 68ch; }
+.gbar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+main.wide { max-width: 1600px; }
+.gwrap { display:grid; grid-template-columns: minmax(0, 1fr) 340px; gap:12px; align-items:start; }
+#cy { height: max(520px, calc(100vh - 230px)); background: var(--card); border:1px solid var(--line); border-radius:6px; min-width:0; }
+#g-panel { background: var(--card); border:1px solid var(--line); border-radius:6px; padding:12px 14px; min-width:0;
+  max-height: max(520px, calc(100vh - 230px)); overflow-y:auto; overflow-x:hidden; overflow-wrap:anywhere; }
+#g-panel h3 { font: 600 1.15rem/1.2 var(--display); margin: 0 0 6px; }
+#g-panel .ways { display:flex; flex-direction:column; gap:6px; margin: 8px 0; }
+#g-panel .way { text-align:left; border:1px solid var(--accent); background:none; color:var(--fg); border-radius:6px;
+  padding:6px 10px; cursor:pointer; font:inherit; font-size:.9rem; }
+#g-panel .way b { color: var(--accent); }
+#g-panel .trail { color: var(--muted); font-size:.82rem; }
+@media (max-width: 760px) { .gwrap { grid-template-columns: 1fr; } #cy { height: 70vh; } #g-panel { max-height:none; } }
+@media (max-width: 600px) { .body { padding-left: 16px; } table.facts td.src { display:block; border-top:0; padding-top:0; } }
+</style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="7f8e6525-92cd-43bf-ad0e-32f10b5c6ef7"></script>
+</head>
+<body>
+<main>
+<p class="meta"><a href="index.html">&larr; tankzim2000 project</a></p>
+<h1>tankzim2000 After-action report</h1>
+<div class="meta">engine version 0.18.0 · updated 2026-11-08 · built from docs/parts/report_decisions.json and docs/parts/report_thoughts.json</div>
+<nav class="tabs"><button class="tab on" data-tab="decisions">Decisions</button><button class="tab" data-tab="thoughts">Thoughts and plans</button></nav>
+<section id="tab-decisions">
+<div class="bar"><input id="q" type="search" placeholder="Search decisions…" aria-label="Search"><button class="flt on" data-f="all">All</button><button class="flt" data-f="decided">Decided (3)</button><button class="flt" data-f="open">Open (4)</button><button class="flt" data-f="parked">Parked (1)</button></div>
+<div id="list"><section class="group" data-status="open"><h2>Open <span class="count">4</span></h2><details class="decision" data-status="open" data-search="the outcome is a readable account someone who did not write the code can read what happened in a scenario, in what order and why. it is enough to judge whether the outcome is reasonable. it gives the outcome per round, unless f4 already does. what is the readable account of a scenario: what does it say, and in what form?" id="report-readable-outcome"><summary><span class="title">The outcome is a readable account</span><span class="chip st-open">Open</span></summary><div class="body"><p class="summary">Someone who did not write the code can read what happened in a scenario, in what order and why. It is enough to judge whether the outcome is reasonable. It gives the outcome per round, unless F4 already does.</p><p class="question"><b>Question:</b> What is the readable account of a scenario: what does it say, and in what form?</p><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>Verification: someone who did not write the code understands what happened in the scenario.</td><td class="src">docs/MILESTONES.md, F10</td></tr><tr><td><span class="chip lb-stated">stated</span></td><td>The F10 text is the milestone&#x27;s plan. It is not a quote from the discussion.</td><td class="src">docs/MILESTONES.md, F10</td></tr></tbody></table></div><h4>Open</h4><ul><li>Not decided: the F10 milestone only states what it must achieve. Content and form are open.</li></ul></div></details><details class="decision" data-status="open" data-search="ammunition in the aar it is not decided which ammunition the aar shows. what ammunition does the aar show?" id="report-ammunition-in-aar"><summary><span class="title">Ammunition in the AAR</span><span class="chip st-open">Open</span></summary><div class="body"><p class="summary">It is not decided which ammunition the AAR shows.</p><p class="question"><b>Question:</b> What ammunition does the AAR show?</p><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>The session notes list the ammunition in the AAR as still to do.</td><td class="src">SESSION.md, the 2026-11-07 note on ammunition</td></tr></tbody></table></div></div></details><details class="decision" data-status="open" data-search="export of the aar to a web service the aar may be exported to a web service, both from the gui and from the cli. which service, and how, is not decided. which web service is the aar sent to, and how?" id="report-web-export"><summary><span class="title">Export of the AAR to a web service</span><span class="chip st-open">Open</span></summary><div class="body"><p class="summary">The AAR may be exported to a web service, both from the gui and from the CLI. Which service, and how, is not decided.</p><p class="question"><b>Question:</b> Which web service is the AAR sent to, and how?</p><h4>Options</h4><div class="opts"><details class="opt"><summary><span class="tick off"></span>From the gui</summary><p>Send the AAR to a service from the window.</p></details><details class="opt"><summary><span class="tick off"></span>From the CLI</summary><p>Send the AAR to a service from the command line.</p></details></div><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>Noted in the source, not decided: which service, and how.</td><td class="src">docs/tacai.md 1.1 (note)</td></tr></tbody></table></div></div></details><details class="decision" data-status="open" data-search="which view the end data shows fog is meant to become a setting of the scenario, which may be chosen when a scenario starts, in the future. it is not decided whether the end data shows the true state or what a side saw. does the end data show the true state, or what a side saw?" id="report-fog-view"><summary><span class="title">Which view the end data shows</span><span class="chip st-open">Open</span></summary><div class="body"><p class="summary">Fog is meant to become a setting of the scenario, which may be chosen when a scenario starts, in the future. It is not decided whether the end data shows the true state or what a side saw.</p><p class="question"><b>Question:</b> Does the end data show the true state, or what a side saw?</p><h4>Options</h4><div class="opts"><details class="opt"><summary><span class="tick off"></span>The true state</summary><p>The end data shows what really happened.</p></details><details class="opt"><summary><span class="tick off"></span>What a side saw</summary><p>The end data shows what the side saw.</p></details></div><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>The source asks whether the end data shows the true or what the side saw.</td><td class="src">docs/tacai.md 1.1</td></tr></tbody></table></div></div></details></section><section class="group" data-status="decided"><h2>Decided <span class="count">3</span></h2><details class="decision" data-status="decided" data-search="the end data is a machine-readable export each run ends with machine-readable end data, and the aar is built from it. the source leaves the form free as long as it is logical for a machine. the finished export is what would let someone build a strategic layer on it later. " id="report-end-data"><summary><span class="title">The end data is a machine-readable export</span><span class="chip st-decided">Decided</span></summary><div class="body"><p class="summary">Each run ends with machine-readable end data, and the AAR is built from it. The source leaves the form free as long as it is logical for a machine. The finished export is what would let someone build a strategic layer on it later.</p><h4>Options</h4><div class="opts"><details class="opt chosen"><summary><span class="tick" aria-label="chosen">✓</span>Machine-readable data beside the HTML</summary><p>The end data is written as data for a machine. The HTML is built from it.</p><p class="why"><b>Why:</b> Chosen: the export suits a web service too, and the HTML is built from the same data.</p></details></div><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>The form of the export is free, as long as it is logical for a machine.</td><td class="src">docs/tacai.md 1.1</td></tr><tr><td><span class="chip lb-stated">stated</span></td><td>RunSummary gives the winner, the tick it was decided, shots, hits and data per unit. It has no crew fate and no loss counter.</td><td class="src">src/summary.rs: RunSummary</td></tr><tr><td><span class="chip lb-stated">stated</span></td><td>TickSnapshot.events is in practice the contract of the old M13, which is now F10. It came half a year early, driven by debugging needs and not by planning.</td><td class="src">SESSION.md, milestone list (note under F10)</td></tr></tbody></table></div></div></details><details class="decision" data-status="decided" data-search="the crew&#x27;s fate per place is in the end data when a tank is knocked out, the end data says what happened to the crew, per place in the tank. it is written at the end of the run and does not belong to the course of the round. the chain that leads to it is in the shot part. where is the crew&#x27;s fate written?" id="report-crew-fate"><summary><span class="title">The crew&#x27;s fate per place is in the end data</span><span class="chip st-decided">Decided</span></summary><div class="body"><p class="summary">When a tank is knocked out, the end data says what happened to the crew, per place in the tank. It is written at the end of the run and does not belong to the course of the round. The chain that leads to it is in the shot part.</p><p class="question"><b>Question:</b> Where is the crew&#x27;s fate written?</p><h4>Options</h4><div class="opts"><details class="opt chosen"><summary><span class="tick" aria-label="chosen">✓</span>In the end data, per place</summary><p>The fate of each place in the tank, written at the end.</p><p class="why"><b>Why:</b> Chosen: it belongs to the end data, not to the course of the round.</p></details><details class="opt"><summary><span class="tick off"></span>In the course of the round</summary><p>Written as events while the round runs.</p></details></div><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>The quote is written in English in the source, so the English rendering is the same.</td><td class="src">docs/tacai.md 1.1</td></tr></tbody></table></div></div></details><details class="decision" data-status="decided" data-search="losses are a counter per tank the aar shows losses as a counter. dead, wounded and missing are counted separately, and per tank. how are the losses shown in the aar?" id="report-losses-counter"><summary><span class="title">Losses are a counter per tank</span><span class="chip st-decided">Decided</span></summary><div class="body"><p class="summary">The AAR shows losses as a counter. Dead, wounded and missing are counted separately, and per tank.</p><p class="question"><b>Question:</b> How are the losses shown in the AAR?</p><h4>Options</h4><div class="opts"><details class="opt chosen"><summary><span class="tick" aria-label="chosen">✓</span>A counter per tank</summary><p>Dead, wounded and missing counted separately, per tank, shown in the AAR.</p><p class="why"><b>Why:</b> Chosen: with individual crew members as the unit, the outcome is hard to explain.</p></details><details class="opt"><summary><span class="tick off"></span>Individual crew members</summary><p>Each crew member tracked as its own unit.</p><p class="why"><b>Why:</b> Not chosen: it makes the simulation hard to follow.</p></details></div><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>The counter counts dead, wounded and missing separately, and per tank.</td><td class="src">docs/tacai.md 1.1</td></tr></tbody></table></div></div></details></section><section class="group" data-status="parked"><h2>Parked <span class="count">1</span></h2><details class="decision" data-status="parked" data-search="a strategic layer on top of the export a strategic layer, which is campaign level, is not a goal now. the finished export is what would let someone build it later. " id="report-strategic-layer"><summary><span class="title">A strategic layer on top of the export</span><span class="chip st-parked">Parked</span></summary><div class="body"><p class="summary">A strategic layer, which is campaign level, is not a goal now. The finished export is what would let someone build it later.</p><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>Crew losses and location statistics are campaign level.</td><td class="src">docs/tacai.md 1.1 (background)</td></tr><tr><td><span class="chip lb-stated">stated</span></td><td>A strategic layer is not a goal now.</td><td class="src">docs/tacai.md 1.1 (background)</td></tr></tbody></table></div></div></details></section></div>
+</section>
+<section id="tab-thoughts" hidden><h2>Later (3)</h2><details class="decision" id="t-report-thought-log-explains"><summary><span class="title">The log explains the outcome</span><span class="chip kind-idea">Idea</span></summary><div class="body"><p class="summary">If each decision in the log carries its reason, the AAR&#x27;s why line comes almost for free.</p><p>The source&#x27;s example is a tank backing up with the reason written in the log, e.g. &#x27;Backs: #3 penetrates our front at 900 m, we do not penetrate his.&#x27; The same log would feed the after-action report and the why line in the gui.</p><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>Each decision is an event with its reason. That makes the after-action report nearly free, and gives a why line in the gui.</td><td class="src">docs/tacai.md, section 6</td></tr></tbody></table></div><p class="links"><a class="chip link" href="#report-readable-outcome">decision: The outcome is a readable account</a></p></div></details><details class="decision" id="t-report-thought-prose-summary"><summary><span class="title">A language model writes a narrative from the logs</span><span class="chip kind-idea">Idea</span></summary><div class="body"><p class="summary">Optional, later: a language model writes an after-action narrative from the logs, as an addition to the report.</p><p>Not part of the first version of F10. The source calls it optional and for later, and it would read the machine-readable logs.</p><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>Later and voluntary, as an addition to F10.</td><td class="src">docs/tacai.md, section 6</td></tr></tbody></table></div><p class="links"><a class="chip link" href="#report-aar-html">decision: report-aar-html</a></p></div></details><details class="decision" id="t-report-thought-map-svg"><summary><span class="title">The map as SVG in the page</span><span class="chip kind-idea">Idea</span></summary><div class="body"><p class="summary">The map can sit in the HTML page as SVG, as the range output already does.</p><p>The range output in out/range/ is already SVG, so the same format would fit the AAR page.</p><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>The map can sit in the page as SVG. The project already makes SVG, e.g. out/range/.</td><td class="src">docs/tacai.md 1.1</td></tr></tbody></table></div><p class="links"><a class="chip link" href="#report-aar-html">decision: report-aar-html</a></p></div></details><h2>Maybe (1)</h2><details class="decision" id="t-report-thought-fog-setting"><summary><span class="title">Fog as a scenario setting</span><span class="chip kind-idea">Idea</span></summary><div class="body"><p class="summary">Fog could be chosen when a scenario starts, and the end data would then show the true state or what the side saw.</p><p>Not in scope now. Whichever view the end data shows is the open question in the decision on the end data&#x27;s view.</p><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-stated">stated</span></td><td>Fog may in the future be chosen when a scenario starts.</td><td class="src">docs/tacai.md 1.1</td></tr></tbody></table></div><p class="links"><a class="chip link" href="#report-fog-view">decision: Which view the end data shows</a></p></div></details></section>
+<section id="tab-model" hidden><p>No model yet (docs/tacai_model.json).</p></section>
+<section id="tab-graphs" hidden><p>No model yet (docs/tacai_model.json).</p></section>
+</main>
+<script>
+(function () {
+  var f = "all", q = document.getElementById("q");
+  function apply() {
+    var text = q.value.trim().toLowerCase();
+    document.querySelectorAll("details.decision").forEach(function (d) {
+      var ok = (f === "all" || d.dataset.status === f) && (!text || d.dataset.search.indexOf(text) >= 0
+        || d.textContent.toLowerCase().indexOf(text) >= 0);
+      d.hidden = !ok;
+    });
+    // A heading shows only while something under it does.
+    document.querySelectorAll("#list .vgroup, #list .group").forEach(function (g) {
+      g.hidden = !g.querySelector("details.decision:not([hidden])");
+    });
+  }
+  document.querySelectorAll(".flt").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".flt").forEach(function (x) { x.classList.remove("on"); });
+      b.classList.add("on"); f = b.dataset.f; apply();
+    });
+  });
+  q.addEventListener("input", apply);
+  function show(tab) {
+    document.querySelectorAll(".tab").forEach(function (b) { b.classList.toggle("on", b.dataset.tab === tab); });
+    document.querySelectorAll("main > section").forEach(function (s) { s.hidden = s.id !== "tab-" + tab; });
+    // A graph is drawn when its tab is first shown: a hidden element has no size to draw in.
+    // The graphs get the whole width of the screen; the reading tabs keep a readable measure.
+    document.querySelector("main").classList.toggle("wide", tab === "graphs");
+    if (tab === "graphs" && window.tacaiGraphs) { window.tacaiGraphs.show(); }
+  }
+  document.querySelectorAll(".tab").forEach(function (b) { b.addEventListener("click", function () { show(b.dataset.tab); }); });
+  function openHash() {
+    var t = location.hash && document.getElementById(location.hash.slice(1));
+    if (!t) return;
+    var sec = t.closest("section"); if (sec) show(sec.id.replace("tab-", ""));
+    t.open = true; t.hidden = false; t.scrollIntoView({ block: "start" });
+  }
+  window.addEventListener("hashchange", openHash);
+  openHash();
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+<script>
+(function () {
+  var holder = document.getElementById("graph-data");
+  if (!holder) return;
+  var graphs = JSON.parse(holder.textContent);
+  var panel = document.getElementById("g-panel");
+  var cy = null, current = null, trail = [], drawn = false;
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function tok(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888"; }
+  function graph(id) { return graphs.filter(function (g) { return g.id === id; })[0]; }
+  function nodeOf(g, id) { return g.nodes.filter(function (n) { return n.id === id; })[0]; }
+  function lines(s) { return Math.max(1, Math.ceil(s.length / 20)); }
+  function style() {
+    return [
+      { selector: "node", style: { "label": "data(label)", "text-wrap": "wrap", "text-max-width": 150,
+        "text-valign": "center", "text-halign": "center", "font-size": 12, "font-family": "IBM Plex Sans, system-ui, sans-serif",
+        "color": tok("--fg"), "background-color": tok("--card"), "border-width": 1.5, "border-color": tok("--line"),
+        "shape": "round-rectangle", "width": 170, "height": "data(h)" } },
+      { selector: "node[shape = 'diamond']", style: { "shape": "diamond", "width": 200, "height": "data(h)" } },
+      { selector: "node[shape = 'end']", style: { "shape": "round-rectangle", "width": 110, "height": 30,
+        "color": tok("--muted"), "border-style": "dashed" } },
+      { selector: "edge", style: { "curve-style": "bezier", "target-arrow-shape": "triangle", "width": 1.5,
+        "line-color": tok("--line"), "target-arrow-color": tok("--line"), "label": "data(label)", "font-size": 10.5,
+        "color": tok("--muted"), "text-background-color": tok("--card"), "text-background-opacity": 1,
+        "text-background-padding": 2, "text-wrap": "wrap", "text-max-width": 120 } },
+      { selector: ".walked", style: { "border-color": tok("--accent"), "border-width": 2.5 } },
+      { selector: "edge.walked", style: { "line-color": tok("--accent"), "target-arrow-color": tok("--accent"), "width": 2.5 } },
+      { selector: ".here", style: { "background-color": tok("--accent"), "color": tok("--bg"), "border-color": tok("--accent") } },
+      { selector: ".next", style: { "border-color": tok("--built"), "border-width": 2.5, "border-style": "dashed" } }
+    ];
+  }
+  function draw(id) {
+    var g = graph(id);
+    if (!g) return;
+    current = g; trail = [];
+    var els = g.nodes.map(function (n) {
+      return { data: { id: n.id, label: n.label, shape: n.shape, h: (n.shape === "diamond" ? 70 : 18) + 15 * lines(n.label) } };
+    }).concat(g.edges.map(function (e, i) {
+      return { data: { id: "e" + i, source: e.from, target: e.to, label: e.label || "" } };
+    }));
+    if (cy) cy.destroy();
+    cy = cytoscape({ container: document.getElementById("cy"), elements: els, style: style(),
+      layout: { name: "dagre", rankDir: g.dir, nodeSep: 28, rankSep: g.dir === "LR" ? 90 : 40, edgeSep: 12 },
+      wheelSensitivity: 0.3, minZoom: 0.3, maxZoom: 2.5 });
+    cy.on("tap", "node", function (ev) { go(ev.target.id(), null); });
+    cy.fit(undefined, 24);
+    go(g.start, null);
+  }
+  function go(id, viaEdge) {
+    var g = current, n = nodeOf(g, id);
+    if (!n) return;
+    trail.push(id);
+    cy.elements().removeClass("here next");
+    cy.getElementById(id).addClass("walked here");
+    if (viaEdge) cy.getElementById(viaEdge).addClass("walked");
+    var out = [];
+    g.edges.forEach(function (e, i) { if (e.from === id) { out.push([e, i]); cy.getElementById(e.to).addClass("next"); } });
+    // Pan only when the box is out of view, so the whole graph stays in sight while walking.
+    var bb = cy.getElementById(id).renderedBoundingBox(), w = cy.width(), hgt = cy.height();
+    if (bb.x1 < 0 || bb.y1 < 0 || bb.x2 > w || bb.y2 > hgt) {
+      cy.animate({ center: { eles: cy.getElementById(id) } }, { duration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 250 });
+    }
+    var h = "<h3>" + esc(n.label) + "</h3>";
+    var d = n.detail;
+    if (d) {
+      if (d.title && d.title !== n.label) h += '<p class="trail">' + esc(d.title) + "</p>";
+      if (d.what) h += "<p>" + esc(d.what) + "</p>";
+      if (d.reads.length) h += "<h4>Reads</h4><p>" + d.reads.map(esc).join(", ") + "</p>";
+      if (d.writes.length) h += "<h4>Events</h4><p>" + d.writes.map(function (w) { return '<span class="chip ev">' + esc(w) + "</span>"; }).join(" ") + "</p>";
+      if (d.code.length) h += '<h4>Code</h4><ul class="code">' + d.code.map(function (c) { return "<li><code>" + esc(c) + "</code></li>"; }).join("") + "</ul>";
+      var links = [];
+      if (d.step) links.push('<a class="chip ev" href="#m-' + esc(d.step) + '">model: step</a>');
+      d.decisions.forEach(function (x) { links.push('<a class="chip link" href="#' + esc(x[0]) + '">decision: ' + esc(x[1]) + "</a>"); });
+      d.thoughts.forEach(function (x) { links.push('<a class="chip thought" href="#t-' + esc(x[0]) + '">thought: ' + esc(x[1]) + "</a>"); });
+      if (links.length) h += '<p class="links">' + links.join("") + "</p>";
+    }
+    h += "<h4>Ways on</h4>";
+    if (out.length) {
+      h += '<div class="ways">' + out.map(function (p) {
+        var to = nodeOf(g, p[0].to);
+        return '<button class="way" data-to="' + esc(p[0].to) + '" data-edge="e' + p[1] + '">' +
+          (p[0].label ? "<b>" + esc(p[0].label) + "</b> → " : "→ ") + esc(to ? to.label : p[0].to) + "</button>";
+      }).join("") + "</div>";
+    } else {
+      h += "<p>None: the walk ends here.</p>";
+    }
+    h += '<p class="trail">Path: ' + trail.map(function (t) { var x = nodeOf(g, t); return esc(x ? x.label : t); }).join(" → ") + "</p>";
+    panel.innerHTML = h;
+    panel.querySelectorAll(".way").forEach(function (b) {
+      b.addEventListener("click", function () { go(b.dataset.to, b.dataset.edge); });
+    });
+  }
+  window.tacaiGraphs = {
+    show: function () {
+      if (!window.cytoscape) { panel.innerHTML = "<p>The graph library did not load. The page needs a network connection for the graphs.</p>"; return; }
+      if (!drawn) {
+        // The extension may have registered itself on load; registering twice is harmless to skip.
+        if (window.cytoscapeDagre) { try { cytoscape.use(window.cytoscapeDagre); } catch (err) { /* already there */ } }
+        drawn = true; draw("tick");
+      } else { cy.resize(); cy.fit(undefined, 24); }
+    }
+  };
+  document.querySelectorAll("[data-graph]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll("[data-graph]").forEach(function (x) { x.classList.toggle("on", x === b); });
+      draw(b.dataset.graph);
+    });
+  });
+  document.getElementById("g-reset").addEventListener("click", function () { if (current) draw(current.id); });
+  document.getElementById("g-fit").addEventListener("click", function () { if (cy) cy.fit(undefined, 20); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { if (cy) cy.style(style()); });
+  if (!document.getElementById("tab-graphs").hidden) window.tacaiGraphs.show();
+})();
+</script>
+</body>
+</html>
