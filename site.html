@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>tankzim2000 The project site</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: one column of field-manual entries, tabs on top; the drab of the vehicles, status as plain semantic colour. */
+:root { --bg:#eef0ea; --fg:#1b1e17; --muted:#5d6455; --card:#f9faf6; --line:#d3d8ca; --accent:#4f6230;
+  --built:#2e7044; --decided:#2f5b8a; --open:#9a5b00; --parked:#6e736a; --rejected:#9b2c2c;
+  --stated:#2e7044; --secondhand:#2f5b8a; --mock:#9a5b00; --design:#6a3f99; --observed:#3d6466;
+  --display:"Barlow Condensed", "Arial Narrow", sans-serif; --body:"IBM Plex Sans", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, monospace; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#13150f; --fg:#e4e7dc; --muted:#9da593;
+  --card:#1c1f17; --line:#353a2d; --accent:#a8bf78; --built:#7cc493; --decided:#8db4de; --open:#e0a548; --parked:#a3a89c;
+  --rejected:#e08585; --stated:#7cc493; --secondhand:#8db4de; --mock:#e0a548; --design:#c2a0e6; --observed:#8cc0c2;
+  color-scheme: dark; } }
+:root[data-theme="dark"] { --bg:#13150f; --fg:#e4e7dc; --muted:#9da593; --card:#1c1f17; --line:#353a2d; --accent:#a8bf78;
+  --built:#7cc493; --decided:#8db4de; --open:#e0a548; --parked:#a3a89c; --rejected:#e08585; --stated:#7cc493;
+  --secondhand:#8db4de; --mock:#e0a548; --design:#c2a0e6; --observed:#8cc0c2; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 var(--body); }
+main { max-width: 1200px; margin: 0 auto; padding-block: 24px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1 { margin: 0 0 4px; font: 700 2.1rem/1.1 var(--display); letter-spacing: .01em; text-wrap: balance; }
+h2 { font: 600 1.35rem/1.2 var(--display); margin: 28px 0 6px; text-wrap: balance; }
+.meta { color: var(--muted); font-size: .85rem; margin-bottom: 16px; }
+.bar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:16px; }
+.bar input { flex: 1 1 200px; min-width: 0; padding: 8px 10px; border:1px solid var(--line); border-radius:6px;
+  background:var(--card); color:var(--fg); font:inherit; }
+.flt { border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:999px; padding:4px 12px;
+  cursor:pointer; font:inherit; font-size:.85rem; }
+.flt.on { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pics { display:flex; flex-wrap:wrap; gap:12px; }
+figure.pic { margin:0; width:240px; }
+figure.pic img { width:240px; height:auto; display:block; border:1px solid var(--line); border-radius:4px; }
+figure.pic figcaption { font-size:13px; color:var(--muted); margin-top:4px; }
+figure.pic .ver { font-family:ui-monospace,monospace; margin-left:4px; }
+figure.pic .earlier { display:block; }
+figure.pic .earlier a { margin-right:6px; font-family:ui-monospace,monospace; }
+details.decision { background: var(--card); border:1px solid var(--line); border-radius:6px; margin-bottom:8px; }
+details.decision > summary { cursor:pointer; padding:12px 14px; display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+  list-style:none; }
+details.decision > summary::-webkit-details-marker { display:none; }
+details.decision > summary::before { content:"▸"; color:var(--muted); transition: transform .15s; }
+details.decision[open] > summary::before { transform: rotate(90deg); }
+@media (prefers-reduced-motion: reduce) { details.decision > summary::before { transition: none; } }
+.title { font-weight: 600; flex: 1 1 auto; min-width: 0; }
+.body { padding: 0 16px 14px 32px; min-width: 0; }
+.summary { margin-top: 0; max-width: 90ch; }
+.body p { max-width: 90ch; }
+.question { color: var(--muted); }
+h4 { margin: 14px 0 6px; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.chip { font-size:.75rem; padding:1px 8px; border-radius:999px; border:1px solid currentColor; white-space:nowrap; font-family: var(--body); }
+.st-built{color:var(--built)} .st-decided{color:var(--decided)} .st-open{color:var(--open)} .st-parked{color:var(--parked)}
+.st-rejected{color:var(--rejected)} .ver{color:var(--muted); font-family: var(--mono)}
+.lb-stated{color:var(--stated)} .lb-secondhand{color:var(--secondhand)} .lb-MOCK{color:var(--mock)}
+.lb-DESIGN_CHOICE{color:var(--design)} .lb-observed{color:var(--observed)}
+details.opt { border-left: 3px solid var(--line); margin: 4px 0; padding: 2px 10px; }
+details.opt.chosen { border-left-color: var(--built); }
+details.opt > summary { cursor:pointer; }
+.tick { display:inline-block; width:1.2em; color: var(--built); font-weight:700; }
+.why { color: var(--muted); }
+blockquote .tr { display:block; font-style: normal; color: var(--muted); font-size: .9rem; margin-top: 2px; }
+blockquote { margin: 6px 0; padding: 4px 12px; border-left: 3px solid var(--accent); font-style: italic; max-width: 90ch; }
+.tablewrap { overflow-x: auto; }
+table.facts { width:100%; border-collapse: collapse; font-size: .92rem; }
+table.facts td { border-top: 1px solid var(--line); padding: 6px 6px; vertical-align: top; }
+td.src { color: var(--muted); font-size: .85rem; }
+ul.code { padding-left: 18px; }
+code { font: .86rem var(--mono); overflow-wrap: anywhere; }
+.tabs { display:flex; flex-wrap:wrap; gap:4px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+.tab { border:0; background:none; color:var(--muted); font: 600 1.05rem var(--display); letter-spacing:.02em; padding:8px 14px;
+  cursor:pointer; border-bottom:2px solid transparent; }
+.tab.on { color:var(--fg); border-bottom-color:var(--accent); }
+.chip.ev { color: var(--accent); text-decoration:none; }
+.chip.link { color: var(--built); text-decoration:none; }
+.chip.thought { color: var(--design); text-decoration:none; }
+.kind-idea{color:var(--design)} .kind-plan{color:var(--built)} .kind-question{color:var(--open)} .kind-parked{color:var(--parked)}
+.links { display:flex; flex-wrap:wrap; gap:6px; }
+.count { font: 400 .8rem var(--body); color: var(--muted); border:1px solid var(--line); border-radius:999px; padding:0 7px; vertical-align: middle; }
+.vhead { font: 600 1rem var(--mono); color: var(--muted); margin: 14px 0 6px; }
+#list .group > h2:first-child { margin-top: 8px; }
+.lead { color: var(--muted); max-width: 90ch; }
+.gbar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+main.wide { max-width: 1600px; }
+.gwrap { display:grid; grid-template-columns: minmax(0, 1fr) 340px; gap:12px; align-items:start; }
+#cy { height: max(520px, calc(100vh - 230px)); background: var(--card); border:1px solid var(--line); border-radius:6px; min-width:0; }
+#g-panel { background: var(--card); border:1px solid var(--line); border-radius:6px; padding:12px 14px; min-width:0;
+  max-height: max(520px, calc(100vh - 230px)); overflow-y:auto; overflow-x:hidden; overflow-wrap:anywhere; }
+#g-panel h3 { font: 600 1.15rem/1.2 var(--display); margin: 0 0 6px; }
+#g-panel .ways { display:flex; flex-direction:column; gap:6px; margin: 8px 0; }
+#g-panel .way { text-align:left; border:1px solid var(--accent); background:none; color:var(--fg); border-radius:6px;
+  padding:6px 10px; cursor:pointer; font:inherit; font-size:.9rem; }
+#g-panel .way b { color: var(--accent); }
+#g-panel .trail { color: var(--muted); font-size:.82rem; }
+@media (max-width: 760px) { .gwrap { grid-template-columns: 1fr; } #cy { height: 70vh; } #g-panel { max-height:none; } }
+@media (max-width: 600px) { .body { padding-left: 16px; } table.facts td.src { display:block; border-top:0; padding-top:0; } }
+</style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="7f8e6525-92cd-43bf-ad0e-32f10b5c6ef7"></script>
+</head>
+<body>
+<main>
+<p class="meta"><a href="index.html">&larr; tankzim2000 project</a></p>
+<h1>tankzim2000 The project site</h1>
+<div class="meta">engine version 0.31.2 · updated 2026-11-19 · built from data/items/site.json</div>
+<nav class="tabs"><button class="tab on" data-tab="decisions">Decisions</button><button class="tab" data-tab="thoughts">Thoughts and plans</button></nav>
+<section id="tab-decisions">
+<div class="bar"><input id="q" type="search" placeholder="Search decisions…" aria-label="Search"><button class="flt on" data-f="all">All</button><button class="flt" data-f="built">Built (2)</button></div>
+<div id="list"><section class="group" data-status="built"><h2>Built <span class="count">2</span></h2><div class="vgroup"><h3 class="vhead">Version 0.31.2 <span class="count">1</span></h3><details class="decision" data-status="built" data-search="filter and sort the lists, so a friend finds the ideas and decisions the main page has one list of every part&#x27;s decisions and thoughts under one filter bar: search, status (with counts, several at once), part, horizon and a sort (by status, newest built first, title, part). it opens on what is not finished; the choice is kept in the address, so a view can be sent as a link. the part pages&#x27; search now covers the thoughts too and hides the headings with nothing under them. plain script on the pages the site already builds; the part about the site itself is public now. how should a friend find the ideas and decisions on the site?" id="site-filter-and-sort"><summary><span class="title">Filter and sort the lists, so a friend finds the ideas and decisions</span><span class="chip st-built">Built</span><span class="chip ver">0.31.2</span></summary><div class="body"><p class="summary">The main page has one list of every part&#x27;s decisions and thoughts under one filter bar: search, status (with counts, several at once), part, horizon and a sort (by status, newest built first, title, part). It opens on what is not finished; the choice is kept in the address, so a view can be sent as a link. The part pages&#x27; search now covers the thoughts too and hides the headings with nothing under them. Plain script on the pages the site already builds; the part about the site itself is public now.</p><p class="question"><b>Question:</b> How should a friend find the ideas and decisions on the site?</p><h4>Options</h4><div class="opts"><details class="opt chosen"><summary><span class="tick" aria-label="chosen">✓</span>A filter bar in plain script on the pages already built</summary><p>The rows carry their status, part, horizon and version as attributes; a small script filters, sorts and keeps the choice in the address.</p><p class="why"><b>Why:</b> Chosen: filtering and sorting need no site generator, and the pages keep their look, their tags and the checks of the build.</p></details><details class="opt"><summary><span class="tick off"></span>A static site generator (Hugo or the like)</summary><p>The pages rebuilt from the items by a generator&#x27;s templates.</p><p class="why"><b>Why:</b> Not chosen: everything the build does (the checks, keeping private items off the public site, the pictures, the quotes) would have to be built again in its templates, a new tool chain for no new function.</p></details></div><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-DESIGN_CHOICE">DESIGN_CHOICE</span></td><td>A static site generator was weighed and not chosen: the checks of the build, the rule that a private item never reaches the public site, the pictures and the quotes all live in the build, and a generator would need them again.</td><td class="src">tools/site/build.py: render_filter_bar</td></tr><tr><td><span class="chip lb-observed">observed</span></td><td>The public page holds only what it held before: the rows come from the same items the public build lets through, so a private item is never in them.</td><td class="src">tools/site/build.py: index_rows</td></tr><tr><td><span class="chip lb-observed">observed</span></td><td>Before, the part pages&#x27; search walked the thoughts and the model&#x27;s steps too, which had no search text, and stopped with an error at the first, so the headings never hid; and the graph tab&#x27;s buttons changed the status filter.</td><td class="src">tools/site/build.py: render_thoughts</td></tr><tr><td><span class="chip lb-DESIGN_CHOICE">DESIGN_CHOICE</span></td><td>The list opens without the built items, as the built list was folded before; Built or All shows them.</td><td class="src">tools/site/build.py: render_rows</td></tr></tbody></table></div><h4>Code</h4><ul class="code"><li><code>tools/site/build.py: index_rows</code></li><li><code>tools/site/build.py: render_filter_bar</code></li><li><code>tools/site/build.py: render_rows</code></li><li><code>tools/site/build.py: version_key</code></li><li><code>tools/site/build.py: render_thoughts</code></li></ul><h4>Pictures</h4><div class="pics"><figure class="pic"><a href="tacai_img/site-filter-and-sort__0.31.2.jpg" target="_blank" rel="noopener"><img src="tacai_img/site-filter-and-sort__0.31.2_thumb.jpg" alt="The main page&#x27;s filter bar: searched for &quot;hedge&quot;, Built and Thoughts on, the part Terrain and movement, sorted by title; 12 of 417 shown, and the link to the view." loading="lazy"></a><figcaption>The main page&#x27;s filter bar: searched for &quot;hedge&quot;, Built and Thoughts on, the part Terrain and movement, sorted by title; 12 of 417 shown, and the link to the view. <span class="ver">0.31.2</span></figcaption></figure></div></div></details></div><div class="vgroup"><h3 class="vhead">Version 0.18.0 <span class="count">1</span></h3><details class="decision" data-status="built" data-search="the picture diary: one picture per recipe and version, never retaken a recipe (the decision id, a caption and the command line for the program) gives one screenshot per engine version, saved as a jpeg with a thumbnail. a picture that is taken is never taken again, so the folder is the diary and shows how the window changed over time. a picture put in by hand is marked manual and is never replaced by the tool. how are the pictures in the diary kept over time?" id="site-picture-diary"><summary><span class="title">The picture diary: one picture per recipe and version, never retaken</span><span class="chip st-built">Built</span><span class="chip ver">0.18.0</span></summary><div class="body"><p class="summary">A recipe (the decision id, a caption and the command line for the program) gives one screenshot per engine version, saved as a JPEG with a thumbnail. A picture that is taken is never taken again, so the folder is the diary and shows how the window changed over time. A picture put in by hand is marked manual and is never replaced by the tool.</p><p class="question"><b>Question:</b> How are the pictures in the diary kept over time?</p><h4>Options</h4><div class="opts"><details class="opt chosen"><summary><span class="tick" aria-label="chosen">✓</span>One picture per recipe and version, never retaken</summary><p>The folder is the diary; a wrong picture is fixed by deleting its file by hand.</p><p class="why"><b>Why:</b> Chosen: a retake would look different, so the history shows the change itself.</p></details><details class="opt"><summary><span class="tick off"></span>A --force option that retakes a version</summary><p>A flag that replaces the pictures of a version.</p><p class="why"><b>Why:</b> Not chosen: the flag was removed.</p></details></div><h4>Facts</h4><div class="tablewrap"><table class="facts"><tbody><tr><td><span class="chip lb-DESIGN_CHOICE">DESIGN_CHOICE</span></td><td>JPEG at about a third of the PNG&#x27;s size; a thumbnail 360 px wide. Without Pillow the screenshot stays a PNG and there is no thumbnail.</td><td class="src">tools/site/shots.py</td></tr></tbody></table></div></div></details></div></section></div>
+</section>
+<section id="tab-thoughts" hidden><div class="bar"><input id="q-thoughts" type="search" placeholder="Search thoughts and plans…" aria-label="Search thoughts"></div><div id="thought-list"><p>No thoughts yet (data/items/tacai.json).</p></div></section>
+<section id="tab-model" hidden><p>No model yet (docs/tacai_model.json).</p></section>
+<section id="tab-graphs" hidden><p>No model yet (docs/tacai_model.json).</p></section>
+</main>
+<script>
+(function () {
+  // The search and the status filter (site-filter-and-sort): the decisions in #list and the thoughts in #thought-list, each
+  // tab with its own search box kept to the same text; a heading shows only while something under it does. Before, the
+  // search walked every details.decision (the thoughts and the model's steps too, which had no data-search) and threw at
+  // the first, and the graph tab's buttons, also .flt, changed the status filter.
+  var f = "all", boxes = [document.getElementById("q"), document.getElementById("q-thoughts")].filter(Boolean);
+  function matches(d, text) {
+    return !text || (d.dataset.search || "").indexOf(text) >= 0 || d.textContent.toLowerCase().indexOf(text) >= 0;
+  }
+  function apply(text) {
+    text = (text || "").trim().toLowerCase();
+    document.querySelectorAll("#list details.decision").forEach(function (d) {
+      d.hidden = !((f === "all" || d.dataset.status === f) && matches(d, text));
+    });
+    document.querySelectorAll("#thought-list details.decision").forEach(function (d) { d.hidden = !matches(d, text); });
+    document.querySelectorAll("#list .vgroup, #list .group, #thought-list .tgroup").forEach(function (g) {
+      g.hidden = !g.querySelector("details.decision:not([hidden])");
+    });
+  }
+  document.querySelectorAll(".bar .flt[data-f]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".bar .flt[data-f]").forEach(function (x) { x.classList.remove("on"); });
+      b.classList.add("on"); f = b.dataset.f; apply(boxes[0] ? boxes[0].value : "");
+    });
+  });
+  boxes.forEach(function (q) {
+    q.addEventListener("input", function () {
+      boxes.forEach(function (o) { if (o !== q) o.value = q.value; });
+      apply(q.value);
+    });
+  });
+  function show(tab) {
+    document.querySelectorAll(".tab").forEach(function (b) { b.classList.toggle("on", b.dataset.tab === tab); });
+    document.querySelectorAll("main > section").forEach(function (s) { s.hidden = s.id !== "tab-" + tab; });
+    // A graph is drawn when its tab is first shown: a hidden element has no size to draw in.
+    // The graphs get the whole width of the screen; the reading tabs keep a readable measure.
+    document.querySelector("main").classList.toggle("wide", tab === "graphs");
+    if (tab === "graphs" && window.tacaiGraphs) { window.tacaiGraphs.show(); }
+  }
+  document.querySelectorAll(".tab").forEach(function (b) { b.addEventListener("click", function () { show(b.dataset.tab); }); });
+  function openHash() {
+    var t = location.hash && document.getElementById(location.hash.slice(1));
+    if (!t) return;
+    var sec = t.closest("section"); if (sec) show(sec.id.replace("tab-", ""));
+    t.open = true; t.hidden = false; t.scrollIntoView({ block: "start" });
+  }
+  window.addEventListener("hashchange", openHash);
+  openHash();
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.5/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+<script>
+(function () {
+  var holder = document.getElementById("graph-data");
+  if (!holder) return;
+  var graphs = JSON.parse(holder.textContent);
+  var panel = document.getElementById("g-panel");
+  var cy = null, current = null, trail = [], drawn = false;
+  function esc(s) { var d = document.createElement("div"); d.textContent = s == null ? "" : String(s); return d.innerHTML; }
+  function tok(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888"; }
+  function graph(id) { return graphs.filter(function (g) { return g.id === id; })[0]; }
+  function nodeOf(g, id) { return g.nodes.filter(function (n) { return n.id === id; })[0]; }
+  function lines(s) { return Math.max(1, Math.ceil(s.length / 20)); }
+  function style() {
+    return [
+      { selector: "node", style: { "label": "data(label)", "text-wrap": "wrap", "text-max-width": 150,
+        "text-valign": "center", "text-halign": "center", "font-size": 12, "font-family": "IBM Plex Sans, system-ui, sans-serif",
+        "color": tok("--fg"), "background-color": tok("--card"), "border-width": 1.5, "border-color": tok("--line"),
+        "shape": "round-rectangle", "width": 170, "height": "data(h)" } },
+      { selector: "node[shape = 'diamond']", style: { "shape": "diamond", "width": 200, "height": "data(h)" } },
+      { selector: "node[shape = 'end']", style: { "shape": "round-rectangle", "width": 110, "height": 30,
+        "color": tok("--muted"), "border-style": "dashed" } },
+      { selector: "edge", style: { "curve-style": "bezier", "target-arrow-shape": "triangle", "width": 1.5,
+        "line-color": tok("--line"), "target-arrow-color": tok("--line"), "label": "data(label)", "font-size": 10.5,
+        "color": tok("--muted"), "text-background-color": tok("--card"), "text-background-opacity": 1,
+        "text-background-padding": 2, "text-wrap": "wrap", "text-max-width": 120 } },
+      { selector: ".walked", style: { "border-color": tok("--accent"), "border-width": 2.5 } },
+      { selector: "edge.walked", style: { "line-color": tok("--accent"), "target-arrow-color": tok("--accent"), "width": 2.5 } },
+      { selector: ".here", style: { "background-color": tok("--accent"), "color": tok("--bg"), "border-color": tok("--accent") } },
+      { selector: ".next", style: { "border-color": tok("--built"), "border-width": 2.5, "border-style": "dashed" } }
+    ];
+  }
+  function draw(id) {
+    var g = graph(id);
+    if (!g) return;
+    current = g; trail = [];
+    var els = g.nodes.map(function (n) {
+      return { data: { id: n.id, label: n.label, shape: n.shape, h: (n.shape === "diamond" ? 70 : 18) + 15 * lines(n.label) } };
+    }).concat(g.edges.map(function (e, i) {
+      return { data: { id: "e" + i, source: e.from, target: e.to, label: e.label || "" } };
+    }));
+    if (cy) cy.destroy();
+    cy = cytoscape({ container: document.getElementById("cy"), elements: els, style: style(),
+      layout: { name: "dagre", rankDir: g.dir, nodeSep: 28, rankSep: g.dir === "LR" ? 90 : 40, edgeSep: 12 },
+      wheelSensitivity: 0.3, minZoom: 0.3, maxZoom: 2.5 });
+    cy.on("tap", "node", function (ev) { go(ev.target.id(), null); });
+    cy.fit(undefined, 24);
+    go(g.start, null);
+  }
+  function go(id, viaEdge) {
+    var g = current, n = nodeOf(g, id);
+    if (!n) return;
+    trail.push(id);
+    cy.elements().removeClass("here next");
+    cy.getElementById(id).addClass("walked here");
+    if (viaEdge) cy.getElementById(viaEdge).addClass("walked");
+    var out = [];
+    g.edges.forEach(function (e, i) { if (e.from === id) { out.push([e, i]); cy.getElementById(e.to).addClass("next"); } });
+    // Pan only when the box is out of view, so the whole graph stays in sight while walking.
+    var bb = cy.getElementById(id).renderedBoundingBox(), w = cy.width(), hgt = cy.height();
+    if (bb.x1 < 0 || bb.y1 < 0 || bb.x2 > w || bb.y2 > hgt) {
+      cy.animate({ center: { eles: cy.getElementById(id) } }, { duration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 250 });
+    }
+    var h = "<h3>" + esc(n.label) + "</h3>";
+    var d = n.detail;
+    if (d) {
+      if (d.title && d.title !== n.label) h += '<p class="trail">' + esc(d.title) + "</p>";
+      if (d.what) h += "<p>" + esc(d.what) + "</p>";
+      if (d.reads.length) h += "<h4>Reads</h4><p>" + d.reads.map(esc).join(", ") + "</p>";
+      if (d.writes.length) h += "<h4>Events</h4><p>" + d.writes.map(function (w) { return '<span class="chip ev">' + esc(w) + "</span>"; }).join(" ") + "</p>";
+      if (d.code.length) h += '<h4>Code</h4><ul class="code">' + d.code.map(function (c) { return "<li><code>" + esc(c) + "</code></li>"; }).join("") + "</ul>";
+      var links = [];
+      if (d.step) links.push('<a class="chip ev" href="#m-' + esc(d.step) + '">model: step</a>');
+      d.decisions.forEach(function (x) { links.push('<a class="chip link" href="#' + esc(x[0]) + '">decision: ' + esc(x[1]) + "</a>"); });
+      d.thoughts.forEach(function (x) { links.push('<a class="chip thought" href="#t-' + esc(x[0]) + '">thought: ' + esc(x[1]) + "</a>"); });
+      if (links.length) h += '<p class="links">' + links.join("") + "</p>";
+    }
+    h += "<h4>Ways on</h4>";
+    if (out.length) {
+      h += '<div class="ways">' + out.map(function (p) {
+        var to = nodeOf(g, p[0].to);
+        return '<button class="way" data-to="' + esc(p[0].to) + '" data-edge="e' + p[1] + '">' +
+          (p[0].label ? "<b>" + esc(p[0].label) + "</b> → " : "→ ") + esc(to ? to.label : p[0].to) + "</button>";
+      }).join("") + "</div>";
+    } else {
+      h += "<p>None: the walk ends here.</p>";
+    }
+    h += '<p class="trail">Path: ' + trail.map(function (t) { var x = nodeOf(g, t); return esc(x ? x.label : t); }).join(" → ") + "</p>";
+    panel.innerHTML = h;
+    panel.querySelectorAll(".way").forEach(function (b) {
+      b.addEventListener("click", function () { go(b.dataset.to, b.dataset.edge); });
+    });
+  }
+  window.tacaiGraphs = {
+    show: function () {
+      if (!window.cytoscape) { panel.innerHTML = "<p>The graph library did not load. The page needs a network connection for the graphs.</p>"; return; }
+      if (!drawn) {
+        // The extension may have registered itself on load; registering twice is harmless to skip.
+        if (window.cytoscapeDagre) { try { cytoscape.use(window.cytoscapeDagre); } catch (err) { /* already there */ } }
+        drawn = true; draw("tick");
+      } else { cy.resize(); cy.fit(undefined, 24); }
+    }
+  };
+  document.querySelectorAll("[data-graph]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll("[data-graph]").forEach(function (x) { x.classList.toggle("on", x === b); });
+      draw(b.dataset.graph);
+    });
+  });
+  document.getElementById("g-reset").addEventListener("click", function () { if (current) draw(current.id); });
+  document.getElementById("g-fit").addEventListener("click", function () { if (cy) cy.fit(undefined, 20); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { if (cy) cy.style(style()); });
+  if (!document.getElementById("tab-graphs").hidden) window.tacaiGraphs.show();
+})();
+</script>
+</body>
+</html>
