@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>tankzim2000 fronts</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+
+:root { --bg:#eef0ea; --fg:#1b1e17; --muted:#5d6455; --card:#f9faf6; --line:#d3d8ca; --accent:#4f6230;
+  --built:#2e7044; --decided:#2f5b8a; --open:#9a5b00; --parked:#6e736a; --rejected:#9b2c2c; --idea:#6a3f99;
+  --display:"Barlow Condensed", "Arial Narrow", sans-serif; --body:"IBM Plex Sans", system-ui, sans-serif; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#13150f; --fg:#e4e7dc; --muted:#9da593;
+  --card:#1c1f17; --line:#353a2d; --accent:#a8bf78; --built:#7cc493; --decided:#8db4de; --open:#e0a548; --parked:#a3a89c;
+  --rejected:#e08585; --idea:#c2a0e6; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg:#13150f; --fg:#e4e7dc; --muted:#9da593; --card:#1c1f17; --line:#353a2d; --accent:#a8bf78;
+  --built:#7cc493; --decided:#8db4de; --open:#e0a548; --parked:#a3a89c; --rejected:#e08585; --idea:#c2a0e6; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 var(--body); }
+main { max-width:1280px; margin:0 auto; padding:24px 16px 48px; }
+h1 { font:700 2rem var(--display); letter-spacing:.02em; margin:0 0 4px; }
+.lead { color:var(--muted); margin:0 0 16px; }
+a { color:var(--accent); }
+.chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.chip { border:1px solid var(--line); border-radius:999px; padding:1px 10px; font-size:.85rem; background:var(--card); }
+.chip.built { color:var(--built); } .chip.decided { color:var(--decided); } .chip.open { color:var(--open); }
+.chip.parked { color:var(--parked); } .chip.rejected { color:var(--rejected); } .chip.thoughts { color:var(--muted); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; margin-top:20px; }
+.card { display:block; background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent);
+  border-radius:6px; padding:14px 16px; color:inherit; text-decoration:none; }
+.card:hover, .card:focus-visible { border-color:var(--accent); }
+.card h2 { font:700 1.35rem var(--display); margin:0; }
+.card p { margin:6px 0 0; }
+.ms { color:var(--muted); font-size:.85rem; }
+.meta { color:var(--muted); font-size:.8rem; margin-top:28px; }
+
+main { max-width:900px; }
+/* Each pillar framed like the cards of the main page. */
+section.pillar { margin:14px 0; background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent);
+  border-radius:6px; padding:14px 18px; scroll-margin-top:12px; }
+section.pillar h2 { font:700 1.4rem var(--display); margin:0 0 6px; }
+section.pillar dl { margin:8px 0 0; }
+section.pillar dt { color:var(--muted); font-size:.75rem; letter-spacing:.07em; text-transform:uppercase; font-weight:600; }
+section.pillar h4 { color:var(--muted); font-size:.75rem; letter-spacing:.07em; text-transform:uppercase; margin:14px 0 4px; }
+.pnav { display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 4px; }
+.pnav a { text-decoration:none; }
+section.pillar p.what { font-size:1.08rem; margin:4px 0 10px; }
+section.pillar dt { margin-top:10px; } section.pillar dd { margin:2px 0 0 0; }
+section.pillar .chip.link { margin:2px 6px 2px 0; display:inline-block; }
+section.pillar blockquote { margin:8px 0; padding-left:12px; border-left:3px solid var(--line, #ccc); white-space:pre-line; }
+section.pillar blockquote .en { color:var(--muted); font-size:.9rem; }
+
+section.front { margin:14px 0; }
+section.front h2 { font:700 1.4rem var(--display); margin:18px 0 6px; }
+.map { background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:6px;
+  padding:12px 18px; margin:8px 0; }
+.map h3 { margin:0 0 2px; } .map .v { color:var(--muted); font-size:.85rem; font-weight:400; }
+.map h4 { color:var(--muted); font-size:.75rem; letter-spacing:.07em; text-transform:uppercase; margin:12px 0 4px; }
+.map p.path, .map p.none { color:var(--muted); font-size:.85rem; margin:0; }
+ul.todo { list-style:none; padding:0; margin:0; } ul.todo li { margin:4px 0; }
+ul.todo a { text-decoration:none; } ul.todo .chip { font-size:.75rem; margin-right:6px; }
+.map details summary { color:var(--muted); cursor:pointer; margin-top:10px; }
+</style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="7f8e6525-92cd-43bf-ad0e-32f10b5c6ef7"></script>
+</head>
+<body>
+<main>
+<p class="meta"><a href="index.html">&larr; project</a></p>
+<h1>Fronts and maps</h1>
+<p class="lead">Each map under its front, with what is left to do on it. The milestones stay on the main page.</p>
+<section class="front"><h2>Normandy 1944</h2><div class="map"><h3>Le Mesnil-Patry, 11 June 1944 <span class="v">map 0.3.6</span></h3><p class="path">maps/le_mesnil_patry</p><h4>To do (5)</h4><ul class="todo"><li><a href="index.html#post=maps-thought-h2-hussars-marks"><span class="chip st-open">Open</span> Which Sherman marks the 1st Hussars had on 11 June, per squadron</a></li><li><a href="index.html#post=maps-thought-h2-hussars-fireflies"><span class="chip st-open">Open</span> The 1st Hussars&#x27; Fireflies on 11 June, and Sergeant Boyle&#x27;s tank</a></li><li><a href="index.html#post=maps-thought-h2-jagdpanzer-present"><span class="chip st-decided">Decided</span> H2 without a Jagdpanzer IV at Le Mesnil-Patry</a></li><li><a href="index.html#post=terrain-buildings-specific"><span class="chip st-idea">Idea</span> The specific buildings of a map, each with its source</a></li><li><a href="index.html#post=terrain-strip-fields-from-photo"><span class="chip st-idea">Idea</span> The strip fields of the open plain, found on the photograph</a></li></ul><details><summary>Built (4)</summary><ul class="todo"><li><a href="index.html#post=terrain-thought-drawn-ground">Drawn ground: banks and ditches drawn as lines on the raster</a> <span class="v">0.39.0</span></li><li><a href="index.html#post=terrain-fields-as-areas">The fields as areas of their own</a> <span class="v">0.31.0</span></li><li><a href="index.html#post=terrain-real-map-le-mesnil-patry">The first real map is Le Mesnil-Patry, 11 June 1944</a> <span class="v">0.22.2</span></li><li><a href="index.html#post=maps-h2-scenario">H2&#x27;s scenario: the 1st Hussars as the war diary has them</a> <span class="v">0.57.0</span></li></ul></details></div></section><section class="front"><h2>All maps</h2><div class="map"><p>The process, the tools and what holds for every map.</p><h4>To do (9)</h4><ul class="todo"><li><a href="index.html#post=maps-plan-map-process"><span class="chip st-decided">Decided</span> A map process for every front: the same layers, a source per front</a></li><li><a href="index.html#post=terrain-map-coordinate-standard"><span class="chip st-idea">Idea</span> One coordinate standard for every map</a></li><li><a href="index.html#post=terrain-buildings-standard-kit"><span class="chip st-idea">Idea</span> Standard buildings for the time and the region, as modules and rules</a></li><li><a href="index.html#post=terrain-map-source-and-reading"><span class="chip st-idea">Idea</span> The source beside our reading of it</a></li><li><a href="index.html#post=orders-thought-skirmish-random-crews"><span class="chip st-idea">Idea</span> A skirmish mode with randomised crews</a></li><li><a href="index.html#post=maps-thought-llm-made-scenarios"><span class="chip st-idea">Idea</span> Players make their own scenarios with their own LLM</a></li><li><a href="index.html#post=maps-thought-sources-per-front"><span class="chip st-idea">Idea</span> Height, photographs and vector data per front</a></li><li><a href="index.html#post=maps-thought-banks-from-lidar"><span class="chip st-idea">Idea</span> Banks and ditches proposed from LiDAR along the hedges</a></li><li><a href="index.html#post=maps-thought-3d-fly-view"><span class="chip st-idea">Idea</span> A 3D view of the map to fly about in, inside the map editor</a></li></ul><details><summary>Built (11)</summary><ul class="todo"><li><a href="index.html#post=terrain-real-map-data">Which data real maps use</a> <span class="v">0.22.2</span></li><li><a href="index.html#post=terrain-field-outlines-from-hedges">The fields&#x27; outlines proposed from the hedges, checked against the 1947 photograph</a> <span class="v">0.31.0</span></li><li><a href="index.html#post=terrain-map-editor-paint-split">The map editor paints areas and splits them</a> <span class="v">0.31.0</span></li><li><a href="index.html#post=terrain-strip-drafts-split-and-merge">The strips proposed by cutting each frame at its strongest boundary, and a Merge to take a cut back</a> <span class="v">0.31.2</span></li><li><a href="index.html#post=terrain-tracing-tool">A tracing tool for real maps</a> <span class="v">0.22.1</span></li><li><a href="index.html#post=terrain-map-editor">The tracing tool grows into a map editor</a> <span class="v">0.22.2</span></li><li><a href="index.html#post=terrain-map-proposals">Proposals for the whole map: likely ones accepted, the rest as drafts</a> <span class="v">0.22.1</span></li><li><a href="index.html#post=terrain-map-versions">Maps carry a version and a changelog, like the code</a> <span class="v">0.22.2</span></li><li><a href="index.html#post=orders-h1-light-scenario">H1 light: Le Mesnil-Patry from the moment Siegel arrives, playable against the computer</a> <span class="v">0.37.0</span></li><li><a href="index.html#post=maps-testing-grounds-all-vehicles">A testing ground with every vehicle</a> <span class="v">0.48.1</span></li><li><a href="index.html#post=maps-editor-script">One command starts the map editor and opens it in the browser</a> <span class="v">0.55.1</span></li></ul></details></div></section>
+<div class="meta">engine version 0.57.0 · built from maps/*/map.json and data/items/</div>
+</main>
+<a href="#" id="to-top" aria-label="Back to the top" title="Back to the top" hidden>&uarr;</a>
+<style>
+#to-top { position:fixed; right:max(16px, env(safe-area-inset-right, 0px)); bottom:max(16px, env(safe-area-inset-bottom, 0px));
+  z-index:20; width:44px; height:44px; border-radius:50%; background:var(--accent); color:var(--bg); text-decoration:none;
+  font:700 22px/44px system-ui, sans-serif; text-align:center; box-shadow:0 3px 10px rgba(0,0,0,.25); }
+#to-top:hover { filter:brightness(1.1); }
+#to-top:focus-visible { outline:2px solid var(--fg); outline-offset:3px; }
+</style>
+<script>
+(function () {
+  var b = document.getElementById("to-top");
+  function show() { b.hidden = window.scrollY < 600; }
+  window.addEventListener("scroll", show, { passive: true });
+  b.addEventListener("click", function (ev) {
+    ev.preventDefault();
+    window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
+  show();
+})();
+</script>
+</body>
+</html>
